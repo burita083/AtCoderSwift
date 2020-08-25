@@ -20,7 +20,6 @@ func readTwoInts() -> (a: Int, b: Int) {
     return (a: ints[0], b: ints[1])
 }
 
-
 func abc080_b() {
     let N = readLine()!
     let sum = N.map { Int(String($0))! }.reduce(0, +)
