@@ -26,4 +26,19 @@ func abc080_b() {
     print(Int(N)! % sum == 0 ? "Yes" : "No")
 }
 
-abc080_b()
+//abc080_b()
+
+func abc078_b() {
+    let input = readInts()
+    var X = input[0]
+    let Y = input[1]
+    let Z = input[2]
+    var ans = 0
+    X -= Y+Z*2
+    ans += 1
+    ans += X/(Y+Z)
+    
+    print(ans)
+}
+
+abc078_b()
