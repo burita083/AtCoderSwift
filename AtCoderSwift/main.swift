@@ -41,4 +41,15 @@ func abc078_b() {
     print(ans)
 }
 
-abc078_b()
+func abc085_b() {
+    let N = readInt()
+    var l: [Int] = []
+    for _ in 0..<N {
+        let d = readInt()
+        l.append(d)
+    }
+    print(l.reduce([], { $0.contains($1) ? $0 : $0 + [$1] }).count)
+}
+
+abc085_b()
+
