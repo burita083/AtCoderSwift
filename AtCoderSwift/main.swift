@@ -51,5 +51,20 @@ func abc085_b() {
     print(l.reduce([], { $0.contains($1) ? $0 : $0 + [$1] }).count)
 }
 
-abc085_b()
+func isSquare(n: Double) -> Bool {
+    let sqrt = floor(n.squareRoot())
+    return sqrt * sqrt == n
+}
+
+func abc077_b() {
+    let N = readInt()
+    for n in (1...N).reversed() {
+        if isSquare(n: Double(n)) {
+            print(n)
+            return
+        }
+    }
+}
+
+abc077_b()
 
