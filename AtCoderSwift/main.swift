@@ -66,5 +66,10 @@ func abc077_b() {
     }
 }
 
-abc077_b()
+func abc020_b () {
+    let inputs = readInts()
+    print(Int(String(inputs[0]) + String(inputs[1]))! * 2)
+}
+
+abc020_b()
 
