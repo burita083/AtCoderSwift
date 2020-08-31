@@ -71,5 +71,17 @@ func abc020_b () {
     print(Int(String(inputs[0]) + String(inputs[1]))! * 2)
 }
 
-abc020_b()
+func abc073_b () {
+    var ans = 0
+    let N = readInt()
+    for _ in 0..<N {
+        let inputs = readInts()
+        ans += inputs[1] - inputs[0] + 1
+    }
+    print(ans)
+}
+
+
+
+abc073_b()
 
