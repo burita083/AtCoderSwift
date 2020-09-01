@@ -81,7 +81,28 @@ func abc073_b () {
     print(ans)
 }
 
+func abc026_b () {
+    var evens: [Int] = []
+    var odds: [Int] = []
+    var all: [Int] = []
+    let N = readInt()
+    for _ in 0..<N {
+        let R = readInt()
+        all.append(R)
+    }
+
+    for (i, e) in all.sorted(by: >).enumerated() {
+        if i % 2 == 0 {
+            evens.append(e)
+        } else {
+            odds.append(e)
+        }
+    }
+    let ans = evens.map { $0 * $0 }.reduce(0, +) - odds.map { $0 * $0 }.reduce(0, +)
+    print(Double(ans) * Double.pi)
+}
 
 
-abc073_b()
+
+abc026_b()
 
