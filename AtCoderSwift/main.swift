@@ -102,7 +102,15 @@ func abc026_b () {
     print(Double(ans) * Double.pi)
 }
 
+extension StringProtocol {
+    var firstUppercased: String {
+        return prefix(1).uppercased()  + self.lowercased().dropFirst()
+    }
+}
 
+func abc012_b () {
+    print(readLine()!.firstUppercased)
+}
 
-abc026_b()
+abc012_b()
 
