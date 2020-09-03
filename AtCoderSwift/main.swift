@@ -110,7 +110,12 @@ extension StringProtocol {
 
 func abc012_b () {
     print(readLine()!.firstUppercased)
+
 }
 
-abc012_b()
+func abc007_b () {
+    print(readLine()! == "a" ? -1 : "a")
+}
+
+abc007_b()
 
