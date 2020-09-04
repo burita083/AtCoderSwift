@@ -117,5 +117,18 @@ func abc007_b () {
     print(readLine()! == "a" ? -1 : "a")
 }
 
-abc007_b()
+func abc028_b () {
+    let S = readLine()!
+    let A = String(S.filter { $0 == "A" }.count)
+    let B = String(S.filter { $0 == "B" }.count)
+    let C = String(S.filter { $0 == "C" }.count)
+    let D = String(S.filter { $0 == "D" }.count)
+    let E = String(S.filter { $0 == "E" }.count)
+    let F = String(S.filter { $0 == "F" }.count)
+    print(A + " " + B + " " + C + " " + D + " " + E + " " + F)
+}
+
+
+
+abc028_b()
 
