@@ -128,7 +128,19 @@ func abc028_b () {
     print(A + " " + B + " " + C + " " + D + " " + E + " " + F)
 }
 
+func abc097_b () {
+    let x = Double(Int(readLine()!)!)
+    var ans: Double = 1
+    for b in 2..<32 {
+        var p: Double = 2
+        while pow(Double(b), p) <= x {
+            ans = max(ans, pow(Double(b), p))
+            p += 1
+        }
+    }
+    print(Int(ans))
+}
 
 
-abc028_b()
+abc097_b()
 
