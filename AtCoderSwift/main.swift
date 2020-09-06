@@ -141,6 +141,22 @@ func abc097_b () {
     print(Int(ans))
 }
 
+func abc093_b () {
+    var ans: [Int] = []
+    let inputs = readInts()
+    for x in inputs[0]..<inputs[0]+inputs[2] {
+        ans.append(x)
+    }
+    
+    for x in inputs[1]-inputs[2]+1...inputs[1] {
+        if !ans.contains(x) {
+            ans.append(x)
+        }
+    }
+    ans.filter { $0 >= inputs[0] && $0 <= inputs[1] }.forEach { print($0) }
+        
 
-abc097_b()
+}
+
+abc093_b()
 
