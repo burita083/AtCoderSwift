@@ -158,5 +158,18 @@ func abc093_b () {
 
 }
 
-abc093_b()
+
+func abc071_b () {
+    let S = readLine()!
+    let startingValue = Int(("a" as UnicodeScalar).value)
+    for i in 0 ..< 26 {
+        if !S.contains(Character(UnicodeScalar(i + startingValue)!)) {
+            print(Character(UnicodeScalar(i + startingValue)!))
+            return
+        }
+    }
+    print("None")
+}
+
+abc071_b()
 
