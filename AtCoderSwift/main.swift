@@ -158,18 +158,48 @@ func abc093_b () {
 
 }
 
+extension String {
+    subscript(i: Int) -> String {
+        return String(self[index(startIndex, offsetBy: i)])
+    }
+}
 
 func abc071_b () {
     let S = readLine()!
-    let startingValue = Int(("a" as UnicodeScalar).value)
-    for i in 0 ..< 26 {
-        if !S.contains(Character(UnicodeScalar(i + startingValue)!)) {
-            print(Character(UnicodeScalar(i + startingValue)!))
-            return
-        }
+    let T = readLine()!
+    if S == T {
+        print("Yes")
+        return
     }
-    print("None")
+    
+    var ans = 0
+    var count: Int
+    for i in 1..<T.count {
+        count = 0
+        for k in i..<T.count {
+            if S[k] == T[k] {
+                count += 1
+            }
+        }
+        print(count)
+        
+        for k in (0..<i).reversed() {
+            print(S[T.count-1-k])
+            if S[T.count-1-k] == T[k] {
+                count += 1
+            }
+                print(count)
+        }
+        ans = max(ans, count)
+    }
+    
+    if ans == T.count {
+        print("Yes")
+    } else {
+        print("No")
+    }
+    
+
 }
 
 abc071_b()
-
