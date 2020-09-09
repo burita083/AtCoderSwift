@@ -202,4 +202,25 @@ func abc071_b () {
 
 }
 
-abc071_b()
+
+func abc094_b () {
+    let inputs = readInts()
+    let A = readInts()
+    var ans = 1000007
+    var count = 0
+    for i in inputs[2]...inputs[0] {
+        if A.contains(i) {
+            count += 1
+        }
+    }
+    ans = min(count, ans)
+    count = 0
+    for i in 0...inputs[2] {
+        if A.contains(i) {
+            count += 1
+        }
+    }
+    ans = min(count, ans)
+    print(ans)
+}
+abc094_b()
