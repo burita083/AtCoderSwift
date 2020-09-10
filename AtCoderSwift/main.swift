@@ -223,4 +223,19 @@ func abc094_b () {
     ans = min(count, ans)
     print(ans)
 }
-abc094_b()
+
+func tenka1_2019_a() {
+    let inputs = readInts()
+    
+    if inputs[0] < inputs[2] && inputs[2] < inputs[1] && inputs[0] < inputs[1] {
+        print("Yes")
+        return
+    }
+    
+    if inputs[0] > inputs[2] && inputs[2] > inputs[1] && inputs[0] > inputs[1] {
+        print("Yes")
+        return
+    }
+    print("No")
+}
+tenka1_2019_a()
