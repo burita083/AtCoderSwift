@@ -238,4 +238,60 @@ func tenka1_2019_a() {
     }
     print("No")
 }
-tenka1_2019_a()
+
+enum NumError: Error {
+    case invalid(String)
+}
+
+extension NumError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .invalid(let errorMessage):
+            return errorMessage
+        }
+    }
+}
+
+func caddi2018b_aa() throws -> Int {
+    let N = readInt()
+    
+    if N < 999 {
+        throw NumError.invalid("1000から9999の値を入れてください")
+    }
+    
+    if N >= 10000 {
+        throw NumError.invalid("1000から9999の値を入れてください")
+    }
+    
+    return String(N).map {$0}.filter {$0 == "2"}.count
+}
+
+func caddi2018b_a() -> Result<Int, NumError> {
+    let N = readInt()
+    
+    if N < 999 {
+        return .failure(.invalid("1000から9999の値を入れてください"))
+    }
+    
+    if N >= 10000 {
+        return .failure(.invalid("1000から9999の値を入れてください"))
+    }
+    
+    return .success(String(N).map {$0}.filter {$0 == "2"}.count)
+}
+
+func tenka1_2018_a() {
+    let S = readLine()!
+    var reversedString = ""
+    for char in S {
+        reversedString = "\(char)" + reversedString
+    }
+    print(reversedString)
+}
+
+tenka1_2018_a()
+//do {
+//    try print(caddi2018b_a())
+//} catch NumError.invalid(let errorMessage) {
+//    print(errorMessage)
+//}
