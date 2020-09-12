@@ -289,7 +289,13 @@ func tenka1_2018_a() {
     print(reversedString)
 }
 
-tenka1_2018_a()
+func tenka1_2017_a() {
+    let S = readLine()!
+    print(S.map { $0 }.filter { $0 == "1"}.count)
+}
+
+
+tenka1_2017_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
