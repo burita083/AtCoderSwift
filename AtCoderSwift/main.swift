@@ -294,8 +294,32 @@ func tenka1_2017_a() {
     print(S.map { $0 }.filter { $0 == "1"}.count)
 }
 
+func abc178_c() {
+    let N = readInt()
+    let mod = 1000000007
+    var w = 1
+    var n = 1
+    var e = 1
+    for _ in 1...N {
+        w *= 10
+        w %= mod
+        
+        n *= 9
+        n %= mod
+        
+        e *= 8
+        e %= mod
+        
+    }
+    let result = (w - e - ((n - e) * 2)) % mod
+    if result >= 0 {
+        print(result)
+    } else {
+        print(mod + result)
+    }
+}
 
-tenka1_2017_a()
+abc178_c()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
