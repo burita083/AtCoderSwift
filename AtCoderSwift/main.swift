@@ -319,7 +319,20 @@ func abc178_c() {
     }
 }
 
-abc178_c()
+func soundhound2018_a() {
+    let inputs = readInts()
+    if inputs[0] + inputs[1] == 15 {
+        print("+")
+        return
+    }
+    if inputs[0] * inputs[1] == 15 {
+        print("*")
+        return
+    }
+    print("x")
+}
+
+soundhound2018_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
