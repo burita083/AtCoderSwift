@@ -332,7 +332,21 @@ func soundhound2018_a() {
     print("x")
 }
 
-soundhound2018_a()
+func soundhound2018_b() {
+    guard let S = readLine() else {
+        return
+    }
+    let w = readInt()
+    
+    var ans = S[0]
+    for i in w..<S.count {
+        if i % w == 0 {
+            ans += S[i]
+        }
+    }
+    print(ans)
+}
+soundhound2018_b()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
