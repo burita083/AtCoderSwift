@@ -346,7 +346,20 @@ func soundhound2018_b() {
     }
     print(ans)
 }
-soundhound2018_b()
+
+func abc009_2() {
+    let N = readInt() 
+    var As: [Int] = []
+    for _ in 0..<N {
+        let A = readInt()
+        if As.contains(A) {
+            continue
+        }
+        As.append(A)
+    }
+    print(As.sorted()[As.count-2])
+}
+abc009_2()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
