@@ -348,7 +348,7 @@ func soundhound2018_b() {
 }
 
 func abc009_2() {
-    let N = readInt() 
+    let N = readInt()
     var As: [Int] = []
     for _ in 0..<N {
         let A = readInt()
@@ -359,7 +359,28 @@ func abc009_2() {
     }
     print(As.sorted()[As.count-2])
 }
-abc009_2()
+
+extension String {
+    mutating func swapAt(_ index1: Int, _ index2: Int) {
+        var characters = Array(self)
+        characters.swapAt(index1, index2)
+        self = String(characters)
+    }
+}
+
+func abc018_2() {
+    var S = readLine()!
+    let N = readInt()
+    for _ in 0..<N {
+        let input = readInts()
+        var pre = S.prefix(input[0]-1)
+        var middle = S[S.index(S.startIndex, offsetBy: input[0]-1)..<S.index(S.startIndex, offsetBy: input[1])]
+        var end = S.suffix(S.count - input[1])
+        S = pre + String(middle.reversed()) + end
+    }
+    print(S)
+}
+abc018_2()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
