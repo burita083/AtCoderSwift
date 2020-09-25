@@ -380,7 +380,70 @@ func abc018_2() {
     }
     print(S)
 }
-abc018_2()
+
+func tenka1_2018_b() {
+    let input = readInts()
+    var t = input[0]
+    var a = input[1]
+    let k = input[2]
+    
+    if t % 2 != 0 {
+        t -= 1
+        t /= 2
+        a += t
+    } else {
+        t /= 2
+        a += t
+    }
+    
+    if k == 1 {
+        print(t, a)
+        return
+    } else if k == 2 {
+        if a % 2 != 0 {
+            a -= 1
+            a /= 2
+            t += a
+        } else {
+            a /= 2
+            t += a
+        }
+        print(t, a)
+        return
+    } else {
+        if a % 2 != 0 {
+            a -= 1
+            a /= 2
+            t += a
+        } else {
+            a /= 2
+            t += a
+        }
+        for i in 3...input[2] {
+            if i % 2 != 0 {
+                if t % 2 != 0 {
+                    t -= 1
+                    t /= 2
+                    a += t
+                } else {
+                    t /= 2
+                    a += t
+                }
+            } else {
+                if a % 2 != 0 {
+                    a -= 1
+                    a /= 2
+                    t += a
+                } else {
+                    a /= 2
+                    t += a
+                }
+            }
+        }
+    }
+    print(t, a)
+}
+tenka1_2018_b()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
