@@ -443,7 +443,24 @@ func tenka1_2018_b() {
     }
     print(t, a)
 }
-tenka1_2018_b()
+
+
+func tenka1_2019_b() {
+    let N = readInt()
+    let S = readLine()!
+    let K = readInt()
+    let target = S[K-1]
+    var ans = ""
+    for i in 0..<N {
+        if S[i] == target {
+            ans += target
+        } else {
+            ans += "*"
+        }
+    }
+    print(ans)
+}
+tenka1_2019_b()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
