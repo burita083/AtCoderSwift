@@ -460,7 +460,20 @@ func tenka1_2019_b() {
     }
     print(ans)
 }
-tenka1_2019_b()
+
+func formula_2014_qualA_a() {
+    let N = readInt()
+    var a = 1
+    while a*a*a <= N {
+        if a*a*a == N {
+            print("YES")
+            return
+        }
+        a += 1
+    }
+    print("NO")
+}
+formula_2014_qualA_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
