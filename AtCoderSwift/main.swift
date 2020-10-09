@@ -473,7 +473,14 @@ func formula_2014_qualA_a() {
     }
     print("NO")
 }
-formula_2014_qualA_a()
+
+func code_festival_2015_qualA_a() {
+    var S = readLine()!
+    S = String(S.dropLast())
+    S.append("5")
+    print(S)
+}
+code_festival_2015_qualA_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
