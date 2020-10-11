@@ -480,7 +480,17 @@ func code_festival_2015_qualA_a() {
     S.append("5")
     print(S)
 }
-code_festival_2015_qualA_a()
+
+func hhkb2020_a() {
+    var S = readLine()!
+    var T = readLine()!
+    if S == "Y" {
+        print(T.uppercased())
+    } else {
+        print(T)
+    }
+}
+hhkb2020_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
