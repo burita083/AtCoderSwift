@@ -496,7 +496,14 @@ func pakencamp_2019_day3_a() {
     let input = readInts()
     print(input[1]-input[0]+1)
 }
-pakencamp_2019_day3_a()
+
+func nikkei2019ex_a() {
+    let S = readLine()!
+    for i in 0..<S.count {
+        print(i + 1)
+    }
+}
+nikkei2019ex_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
