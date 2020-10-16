@@ -503,7 +503,11 @@ func nikkei2019ex_a() {
         print(i + 1)
     }
 }
-nikkei2019ex_a()
+
+func iroha2019_day1_a() {
+    print(readLine()![0])
+}
+iroha2019_day1_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
