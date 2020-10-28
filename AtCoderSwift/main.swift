@@ -507,7 +507,47 @@ func nikkei2019ex_a() {
 func iroha2019_day1_a() {
     print(readLine()![0])
 }
-iroha2019_day1_a()
+
+func hitachi2020_a() {
+    let S = readLine()!
+    var flag1 = false
+    var flag2 = false
+    var count = 0
+    if S.count % 2 != 0 {
+        print("No")
+        return
+    }
+    for (index, char) in S.enumerated() {
+        if count == 2 {
+            if flag1 && flag2 {
+                count = 0
+            } else {
+                print("No")
+                return
+            }
+        }
+        
+        if index % 2 == 0 {
+            if char == "h" {
+                flag1 = true
+            } else {
+                print("No")
+                return
+            }
+        } else {
+            if char == "i" {
+                flag2 = true
+            } else {
+                print("No")
+                return
+            }
+        }
+        count += 1
+    }
+    
+    print("Yes")
+}
+hitachi2020_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
