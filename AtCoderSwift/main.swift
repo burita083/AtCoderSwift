@@ -547,7 +547,13 @@ func hitachi2020_a() {
     
     print("Yes")
 }
-hitachi2020_a()
+
+func m_solutions2019_a() {
+    let N = readInt()
+    print(180*(N-2))
+    
+}
+m_solutions2019_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
