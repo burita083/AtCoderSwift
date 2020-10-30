@@ -553,7 +553,11 @@ func m_solutions2019_a() {
     print(180*(N-2))
     
 }
-m_solutions2019_a()
+func diverta2019_a() {
+    let input = readInts()
+    print(input[0] - input[1] + 1)
+}
+diverta2019_a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
