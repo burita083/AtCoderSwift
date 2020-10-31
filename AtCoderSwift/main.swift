@@ -557,7 +557,17 @@ func diverta2019_a() {
     let input = readInts()
     print(input[0] - input[1] + 1)
 }
-diverta2019_a()
+
+func diverta2019_2a() {
+    let input = readInts()
+    if input[1] == 1 {
+        print(0)
+        return
+    }
+    let amari = input[0] - input[1]
+    print(amari)
+}
+diverta2019_2a()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
