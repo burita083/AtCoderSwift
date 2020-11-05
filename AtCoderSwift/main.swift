@@ -567,7 +567,27 @@ func diverta2019_2a() {
     let amari = input[0] - input[1]
     print(amari)
 }
-diverta2019_2a()
+
+func isPalindrome(str: String) -> Bool {
+    let rev = String(str.reversed())
+    
+    if str == rev {
+        return true
+    } else {
+        return false
+    }
+}
+
+func arc031_1() {
+    let S = readLine()!
+    if isPalindrome(str: S) {
+        print("YES")
+    } else {
+        print("NO")
+    }
+
+}
+arc031_1()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
