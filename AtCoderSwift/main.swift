@@ -579,12 +579,21 @@ func isPalindrome(str: String) -> Bool {
 }
 
 func arc031_1() {
-    let S = readLine()!
-    if isPalindrome(str: S) {
-        print("YES")
-    } else {
-        print("NO")
+//    let S = readLine()!
+//    if isPalindrome(str: S) {
+//        print("YES")
+//    } else {
+//        print("NO")
+//    }
+    for i in 0..<10 {
+        if i == 5 {
+            print("hello")
+            return
+        }
+        print(i)
     }
+    
+    print("aaaaaaaaaaaaaaaa")
 
 }
 arc031_1()
