@@ -596,7 +596,32 @@ func arc031_1() {
     print("aaaaaaaaaaaaaaaa")
 
 }
-arc031_1()
+
+func past201912_b() {
+    let N = readInt()
+    var temp = 0
+    for n in 0..<N {
+        let A = readInt()
+        if n == 0 {
+            temp = A
+            continue
+
+        } else {
+            
+        }
+        if A == temp {
+            print("stay")
+        } else if A < temp {
+            let d = temp - A
+            print("down " + String(d))
+        } else {
+            let d = A - temp
+            print("up " + String(d))
+        }
+        temp = A
+    }
+}
+past201912_b()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
