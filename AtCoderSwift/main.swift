@@ -621,7 +621,24 @@ func past201912_b() {
         temp = A
     }
 }
-past201912_b()
+
+func abc184_b() {
+    let input = readInts()
+    let S = readLine()!
+    var count = input[1]
+    for s in S {
+        if s == "o" {
+            count += 1
+        } else {
+            if count > 0 {
+                count -= 1
+            }
+        }
+    }
+    
+    print(count)
+}
+abc184_b()
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
