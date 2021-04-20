@@ -623,20 +623,14 @@ func past201912_b() {
 }
 
 func abc184_b() {
-    let input = readInts()
-    let S = readLine()!
-    var count = input[1]
-    for s in S {
-        if s == "o" {
-            count += 1
-        } else {
-            if count > 0 {
-                count -= 1
-            }
-        }
+    let array = [-10, -2, -1, -4, -200000, 0]
+    var sortedArray = array.sorted() {
+        $0 < $1
     }
-    
-    print(count)
+    let len = sortedArray.count
+    let right = sortedArray[len-1] * sortedArray[len-2] * sortedArray[len-3]
+    let left = sortedArray[0] * sortedArray[1] * sortedArray[len-1]
+    print(max(left, right))
 }
 abc184_b()
 //do {
