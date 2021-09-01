@@ -12,12 +12,17 @@ func readInt() -> Int {
 }
  
 func readInts() -> [Int] {
-    return readLine()!.split(separator: " ").map { Int($0)! }
+    return readLine()!.split(separator: " ").map { Int(String($0))! }
 }
  
 func readTwoInts() -> (a: Int, b: Int) {
     let ints = readLine()!.split(separator: " ").map { Int($0)! }
     return (a: ints[0], b: ints[1])
+}
+
+func readThreeInts() -> (a: Int, b: Int, c: Int) {
+    let ints = readLine()!.split(separator: " ").map { Int($0)! }
+    return (a: ints[0], b: ints[1], c: ints[2])
 }
 
 func abc080_b() {
@@ -26,6 +31,72 @@ func abc080_b() {
     print(Int(N)! % sum == 0 ? "Yes" : "No")
 }
 
+func abc212_e() {
+    let (N, M, K) = readThreeInts()
+    var paths: [(x: Int, y: Int)] = []
+    for _ in 0..<M {
+        var (x, y) = readTwoInts()
+        x -= 1
+        y -= 1
+        paths.append((x, y))
+    }
+    
+    let e = [Int](repeating: 0, count: N)
+    var dp: [[Int]] = [[Int]](repeating: e, count: K + 1)
+    dp[0][0] = 1
+    for day in 0..<K {
+        let sum = dp[day].reduce(0, +)
+        for path in 0..<N {
+            dp[day+1][path] = sum - dp[day][path]
+        }
+        
+        paths.forEach { from, to in
+            dp[day+1][from] -= dp[day][to]
+            dp[day+1][to] -= dp[day][from]
+        }
+        
+        for path in 0..<N {
+            dp[day+1][path] %= 998244353
+        }
+    }
+    print(dp[K][0])
+}
+
+func abc162_d() {
+    let N = readInt()
+    let S = Array(readLine()!)
+    var r = 0
+    var g = 0
+    var b = 0
+    for s in S {
+        if s == "R" {
+            r += 1
+        }
+        if s == "G" {
+            g += 1
+        }
+        
+        if s == "B" {
+            b += 1
+        }
+    }
+    var ans = r*g*b
+    for i in 0..<N-2 {
+        for j in i+1..<N-1 {
+            let k = j + (j-i)
+            if k >= N {
+                break
+            }
+            if S[i] != S[j] && S[i] != S[k] && S[j] != S[k] {
+                ans -= 1
+            }
+        }
+    }
+    print(ans)
+}
+
+abc212_e()
+    
 //abc080_b()
 
 func abc078_b() {
@@ -632,7 +703,8 @@ func abc184_b() {
     let left = sortedArray[0] * sortedArray[1] * sortedArray[len-1]
     print(max(left, right))
 }
-abc184_b()
+//abc184_b()
+
 //do {
 //    try print(caddi2018b_a())
 //} catch NumError.invalid(let errorMessage) {
