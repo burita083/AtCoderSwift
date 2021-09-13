@@ -825,7 +825,29 @@ func abc134_d() {
     print(ans.count)
     print(ans.joined(separator: " "))
 }
-abc134_d()
+
+func abc147_d() {
+    let N = readInt()
+    let A = readInts()
+    let MOD = Int(1e9) + 7
+    var ans = 0
+    for i in 0..<61 {
+        let mask = (1 << i) % MOD
+        var one = 0
+        var zero = 0
+        for a in A {
+            if (a & (1 << i)) == 1 {
+                one += 1
+            } else {
+                zero += 1
+            }
+        }
+        ans += (mask*one*zero)
+        ans %= MOD
+    }
+    print(ans%MOD)
+}
+abc147_d()
 
 func abc170_d() {
     let N = readInt()
@@ -848,7 +870,6 @@ func abc170_d() {
     print(dp)
     print(dp.filter { $0 }.count )
 }
-abc170_d()
 
 func abc217_d() {
     let (L, Q) = readTwoInts()
@@ -934,8 +955,7 @@ func abc162_d() {
     print(ans)
 }
 
-abc170_d()
-    
+
 //abc080_b()
 
 func abc078_b() {
