@@ -592,26 +592,6 @@ extension SortedArray: Hashable where Element: Hashable {
     }
 }
 #endif
-import Foundation
-func readInt() -> Int {
-    return Int(readLine()!)!
-}
-
-func readInts() -> [Int] {
-    return readLine()!.split(separator: " ").map { Int(String($0))! }
-}
-
-func readTwoInts() -> (a: Int, b: Int) {
-    let ints = readLine()!.split(separator: " ").map { Int($0)! }
-    return (a: ints[0], b: ints[1])
-}
-
-func readThreeInts() -> (a: Int, b: Int, c: Int) {
-    let ints = readLine()!.split(separator: " ").map { Int($0)! }
-    return (a: ints[0], b: ints[1], c: ints[2])
-}
-
-
 // https://github.com/semisagi0/kyopro-snippet/tree/main/snippets_swift
 struct Deque<Element> {
     private var elements: [Element?]
@@ -785,6 +765,57 @@ extension PriorityQueue: Sequence, IteratorProtocol {
     }
 }
 
+import Foundation
+func readInt() -> Int {
+    return Int(readLine()!)!
+}
+
+func readInts() -> [Int] {
+    return readLine()!.split(separator: " ").map { Int(String($0))! }
+}
+
+func readTwoInts() -> (a: Int, b: Int) {
+    let ints = readLine()!.split(separator: " ").map { Int($0)! }
+    return (a: ints[0], b: ints[1])
+}
+
+func readThreeInts() -> (a: Int, b: Int, c: Int) {
+    let ints = readLine()!.split(separator: " ").map { Int($0)! }
+    return (a: ints[0], b: ints[1], c: ints[2])
+}
+
+
+func abc219_d() {
+    let N = readInt()
+    let (X, Y) = readTwoInts()
+    let y = [Int](repeating: Int.max, count: Y + 1)
+    let XY: [[Int]] = [[Int]](repeating: y, count: X + 1)
+    var dp: [[[Int]]] = [[[Int]]](repeating: XY, count: N + 1)
+    dp[0][0][0] = 0
+    for i in 0 ..< N {
+        let (a, b) = readTwoInts()
+        for x in 0 ... X {
+            for y in 0 ... Y {
+                guard dp[i][x][y] != Int.max else {
+                    continue
+                }
+                let xMAX = min(x + a, X)
+                let yMAX = min(y + b, Y)
+                dp[i + 1][x][y] = min(dp[i + 1][x][y], dp[i][x][y])
+                dp[i + 1][xMAX][yMAX] = min(dp[i + 1][xMAX][yMAX], dp[i][x][y] + 1)
+            }
+        }
+    }
+    let ans = dp[N][X][Y]
+    if ans == Int.max {
+        print(-1)
+        return
+    }
+    print(ans)
+}
+abc219_d()
+
+
 func abc217_e() {
     let Q = readInt()
     var queue = Queue<Int>()
@@ -847,7 +878,6 @@ func abc147_d() {
     }
     print(ans%MOD)
 }
-abc147_d()
 
 func abc170_d() {
     let N = readInt()
