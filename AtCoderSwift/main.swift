@@ -784,6 +784,18 @@ func readThreeInts() -> (a: Int, b: Int, c: Int) {
     return (a: ints[0], b: ints[1], c: ints[2])
 }
 
+func arc067_b() {
+    let (N, A, B) = readThreeInts()
+    let X = readInts()
+    var ans = 0
+    for i in 1  ..< N {
+        let diff = X[i] - X[i-1]
+        let a = A*diff
+        ans += min(a, B)
+    }
+    print(ans)
+}
+
 
 func abc219_d() {
     let N = readInt()
