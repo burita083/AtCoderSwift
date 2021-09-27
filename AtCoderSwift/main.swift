@@ -784,6 +784,129 @@ func readThreeInts() -> (a: Int, b: Int, c: Int) {
     return (a: ints[0], b: ints[1], c: ints[2])
 }
 
+func arc006_3() {
+    let N = readInt()
+    var W: [Int] = []
+    for _ in 0 ..< N {
+        let w = readInt()
+        W.append(w)
+    }
+    var prev = W[0]
+    var ans = 1
+    for w in 1 ..< W.count {
+        if W[w] > prev {
+            ans += 1
+            prev = W[w]
+        }
+    }
+    print(ans)
+}
+arc006_3()
+
+func abc179_d() {
+    let (N, K) = readTwoInts()
+    var LR: [(l: Int, r: Int)] = []
+    var st = Set<Int>()
+    for _ in 0 ..< K {
+        let (l, r) = readTwoInts()
+        for i in l ... r {
+            st.insert(i)
+        }
+        LR.append((l, r))
+    }
+    var dp = [Int](repeating: 0, count: N+1)
+    dp[0] = 1
+    dp[1] = 1
+    let MOD = 998244353
+    let l = st.sorted()
+    for i in 1 ... N {
+        for j in l {
+            if i + j <= N {
+                dp[i+j] += dp[i]
+                dp[i+j] %= MOD
+            }
+        }
+    }
+    print(dp[N])
+}
+func dp_a() {
+    let N = readInt()
+    let H = readInts()
+    var dp = [Int](repeating: 0, count: N+1)
+    for i in 0 ... N {
+        if i + 1 < N && i - 1 >= 0 {
+            dp[i+1] = min(dp[i] + abs(H[i] - H[i+1]), dp[i-1] + abs(H[i-1] - H[i+1]))
+        }
+        
+        if i + 2 < N {
+            dp[i+2] = min(dp[i] + abs(H[i] - H[i+2]), dp[i+1] + abs(H[i+1] - H[i+2]))
+        }
+    }
+    print(dp)
+    print(dp[N])
+}
+
+func dp_c() {
+    let N = readInt()
+    var ABC: [(a: Int, b: Int, c: Int)] = []
+    let e = [Int](repeating: 0, count: 3)
+    var dp: [[Int]] = [[Int]](repeating: e, count: N+1)
+    for _ in 0 ..< N {
+        let (a, b, c) = readThreeInts()
+        ABC.append((a, b, c))
+    }
+    for i in 0 ..< N {
+        let a = ABC[i].a
+        let b = ABC[i].b
+        let c = ABC[i].c
+        dp[i+1][0] += max(dp[i][1] + a, dp[i][2] + a)
+        dp[i+1][1] += max(dp[i][0] + b, dp[i][2] + b)
+        dp[i+1][2] += max(dp[i][0] + c, dp[i][1] + c)
+    }
+    print(max(dp[N][0], dp[N][1], dp[N][2]))
+}
+dp_c()
+
+func abc032_d() {
+    let (N, W) = readTwoInts()
+    var VW: [(weight: Int, value: Int)] = []
+    var dp = [Int](repeating: 0, count: W+1)
+    for _ in 0 ..< N {
+        let (w, v) = readTwoInts()
+        VW.append((w, v))
+    }
+    for i in 0 ..< N {
+        for w in (0 ... W).reversed() {
+            let value = VW[i].value
+            let weight = VW[i].weight
+            if w + weight <= W {
+                dp[w+weight] = max(dp[w] + value, dp[w+weight])
+            }
+        }
+    }
+    print(dp[W])
+}
+
+func abc220_d() {
+    let N = readInt()
+    let A = readInts()
+    let MOD = 998244353
+    let e = [Int](repeating: 0, count: 10)
+    var dp: [[Int]] = [[Int]](repeating: e, count: N)
+    dp[0][A[0]] = 1
+    for i in 0 ..< N-1 {
+        for k in 0 ..< 10 {
+            dp[i+1][(k+A[i+1])%10] += dp[i][k]
+            dp[i+1][(k+A[i+1])%10] %= MOD
+            dp[i+1][(k*A[i+1])%10] += dp[i][k]
+            dp[i+1][(k*A[i+1])%10] %= MOD
+        }
+    }
+    for d in dp[N-1] {
+        print(d)
+    }
+}
+
 func arc067_b() {
     let (N, A, B) = readThreeInts()
     let X = readInts()
@@ -825,7 +948,6 @@ func abc219_d() {
     }
     print(ans)
 }
-abc219_d()
 
 
 func abc217_e() {
