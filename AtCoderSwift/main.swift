@@ -784,6 +784,45 @@ func readThreeInts() -> (a: Int, b: Int, c: Int) {
     return (a: ints[0], b: ints[1], c: ints[2])
 }
 
+extension String {
+    subscript(_ range: CountableRange<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+        let end = index(start, offsetBy: min(self.count - range.lowerBound,
+                                             range.upperBound - range.lowerBound))
+        return String(self[start..<end])
+    }
+    
+    subscript(_ range: CountablePartialRangeFrom<Int>) -> String {
+        let start = index(startIndex, offsetBy: max(0, range.lowerBound))
+        return String(self[start...])
+    }
+}
+extension Character {
+    var byte: UInt8 { utf8.first! }
+}
+
+
+
+//func tenka1() {
+//    let N = readInt()
+//    let S = readLine()!.map { $0.byte }
+//    let T = (0..<N).map { _ in readLine()!.map { $0.byte }}
+//    var dp = [Int](repeating: 0, count: S.count+1)
+//    dp[0] = 1
+//
+//    let MOD = 1000000007
+//    for i in 0..<S.count {
+//        for t in T where i + t.count <= S.count {
+//            if S[i+t.count] == t {
+//                dp[i+t.count] += dp[i]
+//                dp[i+t.count] %= MOD
+//            }
+//        }
+//    }
+//    print(dp.last!)
+//}
+//tenka1()
+
 func arc006_3() {
     let N = readInt()
     var W: [Int] = []
@@ -791,17 +830,32 @@ func arc006_3() {
         let w = readInt()
         W.append(w)
     }
-    var prev = W[0]
-    var ans = 1
+    let e: [Int] = []
+    var dp = [[Int]](repeating: e, count: N+1)
+    var count = 0
+    dp[0].append(W[0])
+    count += 1
     for w in 1 ..< W.count {
-        if W[w] > prev {
-            ans += 1
-            prev = W[w]
+        var mn = Int.max
+        var idx = -1
+        for d in 0 ..< dp.count {
+            if dp[d].isEmpty { break }
+            let last = dp[d].last!
+            if last < W[w] { continue }
+            if last - W[w] < mn {
+                mn = min(mn, last - W[w])
+                idx = d
+            }
         }
+        if idx == -1 {
+            dp[count].append(W[w])
+            count += 1
+            continue
+        }
+        dp[idx].append(W[w])
     }
-    print(ans)
+    print(dp.filter { !$0.isEmpty }.count)
 }
-arc006_3()
 
 func abc179_d() {
     let (N, K) = readTwoInts()
@@ -865,7 +919,6 @@ func dp_c() {
     }
     print(max(dp[N][0], dp[N][1], dp[N][2]))
 }
-dp_c()
 
 func abc032_d() {
     let (N, W) = readTwoInts()
