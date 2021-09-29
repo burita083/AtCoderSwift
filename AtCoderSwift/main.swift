@@ -802,6 +802,59 @@ extension Character {
 }
 
 
+func abc054_d() {
+    let (N, M1, M2) = readThreeInts()
+    var ans: [(m1: Int, m2: Int)] = []
+    var count = 1
+    var ABC: [(a: Int, b: Int, c: Int)] = []
+    for _ in 0..<N {
+        let (a, b, c) = readThreeInts()
+        ABC.append((a, b, c))
+    }
+    let A = ABC.map { $0.a }.reduce(0, +)
+    let B = ABC.map { $0.b }.reduce(0, +)
+    while true {
+        let m1 = count * M1
+        let m2 = count * M2
+        if m1 > A || m2 > B {
+            break
+        }
+        ans.append((m1, m2))
+        count += 1
+    }
+    
+    let y = [Int](repeating: Int.max, count: 401)
+    let XY: [[Int]] = [[Int]](repeating: y, count: 401)
+    var res = Int.max
+    var dp: [[[Int]]] = [[[Int]]](repeating: XY, count: N + 1)
+    dp[0][0][0] = 0
+    for i in 0 ..< N {
+        let (a, b, c) = ABC[i]
+        for x in (0 ... 400) {
+            for y in (0 ... 400) {
+                guard dp[i][x][y] != Int.max else {
+                    continue
+                }
+                if x + a > 400 || y + b > 400 { continue }
+                // 加えない処理
+                dp[i + 1][x][y] = min(dp[i + 1][x][y], dp[i][x][y])
+                
+                // 加える処理
+                dp[i + 1][x+a][y+b] = min(dp[i + 1][x+a][y+b], dp[i][x][y] + c)
+            }
+        }
+    }
+    for (m1, m2) in ans {
+        res = min(res, dp[N][m1][m2])
+    }
+    if res == Int.max {
+        print(-1)
+        return
+    }
+    print(res)
+}
+abc054_d()
+
 
 //func tenka1() {
 //    let N = readInt()
