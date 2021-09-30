@@ -801,6 +801,32 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func tdpcA() {
+    let (N, A) = readTwoInts()
+    let P = readInts()
+    let e = [Int](repeating: 0, count: 2501)
+    let x = [[Int]](repeating: e, count: 51)
+    var dp: [[[Int]]] = [[[Int]]](repeating: x, count: N+1)
+    dp[0][0][0] = 1
+    for i in 0..<N {
+        for j in (0..<50) {
+            for k in (0..<2501) {
+                dp[i+1][j][k] += dp[i][j][k]
+                dp[i+1][j+1][k+P[i]] += dp[i][j][k]
+            }
+        }
+    }
+    var ans = 0
+    for j in 1...50 {
+        for k in (0...2500) {
+            if k % j == 0 && k / j == A {
+                ans += dp[N][j][k]
+            }
+        }
+    }
+    print(ans)
+}
+tdpcA()
 
 func abc054_d() {
     let (N, M1, M2) = readThreeInts()
@@ -853,7 +879,6 @@ func abc054_d() {
     }
     print(res)
 }
-abc054_d()
 
 
 //func tenka1() {
