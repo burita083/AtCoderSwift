@@ -801,6 +801,50 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func wupc2021_4() {
+    let N = readInt()
+    let x = [Int](repeating: Int.min, count: N+1)
+    var dp: [[Int]] = [[Int]](repeating: x, count: N+1)
+    var YX: [[Int]] = [[Int]]()
+    for _ in 0..<N {
+        let P = readInts()
+        YX.append(P)
+    }
+    dp[0][0] = YX[0][0]
+    for i in 1..<N {
+        for j in 0..<i+1 {
+            if i - 1 >= 0 && j - 1 >= 0 {
+                dp[i][j] = max(dp[i-1][j-1] + YX[i][j], dp[i][j])
+            }
+            if i - 1 >= 0 {
+                dp[i][j] = max(dp[i-1][j] + YX[i][j], dp[i][j])
+            }
+        }
+    }
+    print(dp[N-1].max()!)
+}
+wupc2021_4()
+
+func a2011yo_d() {
+    let N = readInt()
+    let P = readInts()
+    let x = [Int](repeating: 0, count: 21)
+    var dp: [[Int]] = [[Int]](repeating: x, count: N+1)
+    dp[0][0] = 1
+    dp[1][P[0]] = 1
+    for i in 1..<N-1 {
+        for j in 0..<21 {
+            if j + P[i] <= 20 {
+                dp[i+1][j+P[i]] += dp[i][j]
+            }
+            if j - P[i] >= 0 {
+                dp[i+1][j-P[i]] += dp[i][j]
+            }
+        }
+    }
+    print(dp[N-1][P.last!])
+}
+
 func tdpcA() {
     let (N, A) = readTwoInts()
     let P = readInts()
@@ -826,7 +870,6 @@ func tdpcA() {
     }
     print(ans)
 }
-tdpcA()
 
 func abc054_d() {
     let (N, M1, M2) = readThreeInts()
