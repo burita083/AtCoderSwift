@@ -801,6 +801,78 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func joi2013yo_d() {
+    let (D, N) = readTwoInts()
+    var T: [Int]  = []
+    for _ in 0..<D {
+        let t = readInt()
+        T.append(t)
+    }
+    var ABC: [(a: Int, b: Int, c: Int)] = []
+    var mx = -1
+    for _ in 0..<N {
+        let (a, b, c) = readThreeInts()
+        ABC.append((a, b, c))
+    }
+    var ans = 0
+    var prev = -1
+    for i in 0..<D {
+        let temp = T[i]
+        if i == 0 {
+            var cMX = -1
+            for j in 0..<N {
+                if temp >= ABC[j].a && ABC[j].b >= temp {
+                    cMX = max(cMX, ABC[j].c)
+                }
+            }
+            prev = cMX
+        } else {
+            var cMX = -1
+            var now = -1
+            for j in 0..<N {
+                if temp >= ABC[j].a && ABC[j].b >= temp {
+                    if cMX < abs(ABC[j].c-prev) {
+                        cMX = abs(ABC[j].c-prev)
+                        now = ABC[j].c
+                    }
+                }
+            }
+            prev = now
+            ans += cMX
+        }
+    }
+    
+    var ans2 = 0
+    prev = -1
+    for i in 0..<D {
+        let temp = T[i]
+        if i == 0 {
+            var cMX = Int.max
+            for j in 0..<N {
+                if temp >= ABC[j].a && temp <= ABC[j].b {
+                    cMX = min(cMX, ABC[j].c)
+                }
+            }
+            prev = cMX
+        } else {
+            var cMX = -1
+            var now = -1
+            for j in 0..<N {
+                if temp >= ABC[j].a && ABC[j].b >= temp {
+                    if cMX < abs(ABC[j].c-prev) {
+                        cMX = abs(ABC[j].c-prev)
+                        now = ABC[j].c
+                    }
+                }
+            }
+            prev = now
+            ans2 += cMX
+        }
+    }
+    print(max(ans, ans2))
+}
+joi2013yo_d()
+
 func wupc2021_4() {
     let N = readInt()
     let x = [Int](repeating: Int.min, count: N+1)
@@ -823,7 +895,6 @@ func wupc2021_4() {
     }
     print(dp[N-1].max()!)
 }
-wupc2021_4()
 
 func a2011yo_d() {
     let N = readInt()
