@@ -779,6 +779,12 @@ func readTwoInts() -> (a: Int, b: Int) {
     return (a: ints[0], b: ints[1])
 }
 
+
+func readTwoFloats() -> (a: Float, b: Float) {
+    let ints = readLine()!.split(separator: " ").map { Float($0)! }
+    return (a: ints[0], b: ints[1])
+}
+
 func readThreeInts() -> (a: Int, b: Int, c: Int) {
     let ints = readLine()!.split(separator: " ").map { Int($0)! }
     return (a: ints[0], b: ints[1], c: ints[2])
@@ -801,6 +807,40 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+import Combine
+func abc211_a() {
+    let (N, M) = readTwoFloats()
+    let C = CurrentValueSubject<(N: Float, M: Float), Never>((N, M))
+    var cancellables: Set<AnyCancellable> = []
+    // Subscribe
+    C
+        .sink(receiveValue: { (N, M) in
+            print((N-M)/3 + M)
+        }).store(in: &cancellables)
+}
+abc211_a()
+func joi2015yo_d() {
+    let (N, M) = readTwoInts()
+    let distance = (0..<N).map { _ in readInt() }
+    let weather = [0] + (0..<M).map { _ in readInt() }
+    let k = [Int](repeating: Int.max, count: N+1)
+    var dp: [[Int]] = [[Int]](repeating: k, count:M+1)
+    for day in 0...M {
+        dp[day][0] = 0
+    }
+    for day in (1...M) {
+        for k in (1...N) {
+            if dp[day-1][k] != Int.max {
+                dp[day][k] = dp[day-1][k]
+            }
+            if dp[day-1][k-1] != Int.max {
+                dp[day][k] = min(dp[day-1][k-1] + (distance[k-1] * weather[day]), dp[day][k])
+            }
+        }
+    }
+    print(dp[M][N])
+}
+
 func joi2013yo_d() {
     let (D, N) = readTwoInts()
     var T: [Int]  = []
@@ -809,69 +849,33 @@ func joi2013yo_d() {
         T.append(t)
     }
     var ABC: [(a: Int, b: Int, c: Int)] = []
-    var mx = -1
+    let x = [Int](repeating: -1, count: N+1)
+    var dp: [[Int]] = [[Int]](repeating: x, count: D+1)
     for _ in 0..<N {
         let (a, b, c) = readThreeInts()
         ABC.append((a, b, c))
     }
-    var ans = 0
-    var prev = -1
-    for i in 0..<D {
+    for i in 0..<N {
+        let temp = T[0]
+        if ABC[i].a <= temp && temp <= ABC[i].b {
+            dp[0][i] = 0
+        }
+    }
+    for i in 1..<D {
         let temp = T[i]
-        if i == 0 {
-            var cMX = -1
-            for j in 0..<N {
-                if temp >= ABC[j].a && ABC[j].b >= temp {
-                    cMX = max(cMX, ABC[j].c)
-                }
-            }
-            prev = cMX
-        } else {
-            var cMX = -1
-            var now = -1
-            for j in 0..<N {
-                if temp >= ABC[j].a && ABC[j].b >= temp {
-                    if cMX < abs(ABC[j].c-prev) {
-                        cMX = abs(ABC[j].c-prev)
-                        now = ABC[j].c
+        for j in (0..<N) {
+            if ABC[j].a <= temp && temp <= ABC[j].b {
+                for k in (0..<N) {
+                    if dp[i-1][k] != -1 {
+                        dp[i][j] = max(dp[i][j], dp[i-1][k] + abs(ABC[j].c - ABC[k].c))
                     }
                 }
             }
-            prev = now
-            ans += cMX
         }
     }
+    print(dp[D-1].max()!)
     
-    var ans2 = 0
-    prev = -1
-    for i in 0..<D {
-        let temp = T[i]
-        if i == 0 {
-            var cMX = Int.max
-            for j in 0..<N {
-                if temp >= ABC[j].a && temp <= ABC[j].b {
-                    cMX = min(cMX, ABC[j].c)
-                }
-            }
-            prev = cMX
-        } else {
-            var cMX = -1
-            var now = -1
-            for j in 0..<N {
-                if temp >= ABC[j].a && ABC[j].b >= temp {
-                    if cMX < abs(ABC[j].c-prev) {
-                        cMX = abs(ABC[j].c-prev)
-                        now = ABC[j].c
-                    }
-                }
-            }
-            prev = now
-            ans2 += cMX
-        }
-    }
-    print(max(ans, ans2))
 }
-joi2013yo_d()
 
 func wupc2021_4() {
     let N = readInt()
