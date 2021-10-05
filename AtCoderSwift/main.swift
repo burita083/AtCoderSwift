@@ -774,6 +774,11 @@ func readInts() -> [Int] {
     return readLine()!.split(separator: " ").map { Int(String($0))! }
 }
 
+func readTwoStrings() -> (a: String, b: Int) {
+    let array = readLine()!.split(separator: " ").map { $0 }
+    return (a: String(array[0]), b: Int(array[1])!)
+}
+
 func readTwoInts() -> (a: Int, b: Int) {
     let ints = readLine()!.split(separator: " ").map { Int($0)! }
     return (a: ints[0], b: ints[1])
@@ -808,17 +813,51 @@ extension Character {
 }
 
 import Combine
+
+func past201912_i() {
+    let (N, M) = readTwoInts()
+    let SC = (0..<M).flatMap { (m) -> (a: String, b: Int) in readTwoStrings() }.flatMap
+    {
+        (left, right) -> (a: String, b: Int) in
+        var l = ""
+        for s in left {
+            l += (s == "Y" ? "1" : "0")
+        }
+        return (l, right)
+    }
+    print(SC)
+    print(1<<N)
+    let k = [Int](repeating: Int.max, count: 1<<N)
+    var dp: [[Int]] = [[Int]](repeating: k, count:M+1)
+    for m in 0..<M {
+        for k in (0..<(1<<N)) {
+            dp[0][k] = 0
+        }
+    }
+    for m in 0..<M {
+        for k in (0..<N) {
+            guard dp[m][Int(SC[m].a, radix: 2)!] != Int.max else { continue }
+            let left: Int = dp[m][Int(SC[m].a, radix: 2)!]+SC[m].b
+            print(left)
+            let right: Int = dp[m+1][Int(SC[m].a, radix: 2)! | (1<<k)]
+            dp[m+1][Int(SC[m].a, radix: 2)! | (1<<k)] = min(left, right)
+        }
+    }
+    print(dp)
+    print(dp[M][N])
+}
+past201912_i()
 func abc211_a() {
     let (N, M) = readTwoFloats()
     let C = CurrentValueSubject<(N: Float, M: Float), Never>((N, M))
     var cancellables: Set<AnyCancellable> = []
     // Subscribe
-    C
+    Just((N, M))
         .sink(receiveValue: { (N, M) in
             print((N-M)/3 + M)
         }).store(in: &cancellables)
 }
-abc211_a()
+//abc211_a()
 func joi2015yo_d() {
     let (N, M) = readTwoInts()
     let distance = (0..<N).map { _ in readInt() }
@@ -838,8 +877,9 @@ func joi2015yo_d() {
             }
         }
     }
-    print(dp[M][N])
+    print(dp.flatMap{$0}.filter{ $0 != Int.max }.last!)
 }
+//joi2015yo_d()
 
 func joi2013yo_d() {
     let (D, N) = readTwoInts()
