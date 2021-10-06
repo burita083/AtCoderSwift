@@ -814,39 +814,71 @@ extension Character {
 
 import Combine
 
+struct Inputs {
+    var (N, M): (N: String, M: String)
+}
+
+func join2012yo_d() {
+    let (N, K) = readTwoInts()
+    let AB = (0..<K).flatMap { _ -> (a: Int, b: Int) in readTwoInts() }.sorted(by: 
+    let k = [Int](repeating: 0, count: 3)
+    var dp: [[Int]] = [[Int]](repeating: k, count:N+1)
+}
+func abc189_d() {
+    let N = readInt()
+    let S = (0..<N).map { _ in readLine()! }
+    let k = [Int](repeating: 0, count: 2)
+    var dp: [[Int]] = [[Int]](repeating: k, count:N+1)
+    dp[0][0] = 1
+    dp[0][1] = 1
+    for i in 0..<N {
+        if S[i] == "AND" {
+            dp[i+1][0] += dp[i][0] + 1
+            dp[i+1][0] += dp[i][1] + 1
+            dp[i+1][1] += dp[i][1] + 1
+        } else {
+            dp[i+1][0] += dp[i][0] + 1
+            dp[i+1][1] += dp[i][0] + 1
+            dp[i+1][1] += dp[i][1] + 1
+        }
+    }
+    print(dp)
+ }
+abc189_d()
+
 func past201912_i() {
     let (N, M) = readTwoInts()
+    let inputs = Inputs(N: "aa", M: "bb")
     let SC = (0..<M).flatMap { (m) -> (a: String, b: Int) in readTwoStrings() }.flatMap
     {
         (left, right) -> (a: String, b: Int) in
+//            left.reduce("", combine: {(l: String, r: String) -> String in
+//                let l = l == "Y" ? "1" : "0"
+//                let r = r == "Y" ? "1" : "0"
+//                return l + r
+//            }), right)
         var l = ""
         for s in left {
             l += (s == "Y" ? "1" : "0")
         }
         return (l, right)
     }
-    print(SC)
-    print(1<<N)
     let k = [Int](repeating: Int.max, count: 1<<N)
     var dp: [[Int]] = [[Int]](repeating: k, count:M+1)
+    dp[0][0] = 0
+
     for m in 0..<M {
-        for k in (0..<(1<<N)) {
-            dp[0][k] = 0
+        dp[m+1] = dp[m]
+        for v in 0..<N {
+                guard dp[m][1<<v] != Int.max else { continue }
+                let left: Int = dp[m][v]+SC[m].b
+                let right: Int = dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v]
+                dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v] = min(left, right)
         }
     }
-    for m in 0..<M {
-        for k in (0..<N) {
-            guard dp[m][Int(SC[m].a, radix: 2)!] != Int.max else { continue }
-            let left: Int = dp[m][Int(SC[m].a, radix: 2)!]+SC[m].b
-            print(left)
-            let right: Int = dp[m+1][Int(SC[m].a, radix: 2)! | (1<<k)]
-            dp[m+1][Int(SC[m].a, radix: 2)! | (1<<k)] = min(left, right)
-        }
-    }
-    print(dp)
-    print(dp[M][N])
+    
+    print(dp.flatMap { $0 }.last! == Int.max ? -1 : dp.flatMap { $0 }.last!)
 }
-past201912_i()
 func abc211_a() {
     let (N, M) = readTwoFloats()
     let C = CurrentValueSubject<(N: Float, M: Float), Never>((N, M))
