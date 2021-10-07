@@ -817,12 +817,86 @@ import Combine
 struct Inputs {
     var (N, M): (N: String, M: String)
 }
+func join20ho_d() {
+    let (N, T, S) = readThreeInts()
+    let AB = (0..<N).map { _ in readTwoInts() }
+    let a = [Int](repeating: -1, count: T+1)
+    var dp: [[Int]] = [[Int]](repeating: a, count:N+1)
+    dp[0][0] = 0
+    for i in 0..<N {
+        for j in 0...T {
+            dp[i+1][j] = dp[i][j]
+            if dp[i][j] != -1 {
+                dp[i+1][j+AB[i].b] = max(dp[i][j] + AB[i].a, dp[i+1][j+AB[i].b])
+            }
+        }
+    }
+    print(dp)
+}
+join20ho_d()
 
 func join2012yo_d() {
     let (N, K) = readTwoInts()
-    let AB = (0..<K).flatMap { _ -> (a: Int, b: Int) in readTwoInts() }.sorted(by: 
-    let k = [Int](repeating: 0, count: 3)
-    var dp: [[Int]] = [[Int]](repeating: k, count:N+1)
+    let AB = (0..<K).flatMap { _ -> (a: Int, b: Int) in readTwoInts() }.sorted { (lhs, rhs) -> Bool in
+        lhs.a < rhs.a
+    }
+    let c = [Int](repeating: 0, count: 3)
+    let b = [[Int]](repeating: c, count: 3)
+    let a = [[[Int]]](repeating: b, count: 3)
+    var dp: [[[[Int]]]] = [[[[Int]]]](repeating: a, count:N+1)
+    var check: [Int] = [0, 0, 0]
+    dp[0][0][0][0] = 1
+    for i in 0..<N {
+        for a in 0...2 {
+            for b in 0...2 {
+                for c in 0...2 {
+                    if a == 2 && b == 2 && c == 2 { continue }
+                    if a == 2 && b == 2 { continue }
+                    if a == 2 && c == 2 { continue }
+                    if b == 2 && c == 2 { continue }
+                    for k in 0..<K {
+                        if AB[k].a-1 == i {
+                            if AB[k].b == 0 {
+                                if a == 2 { continue }
+                                dp[i+1][a+1][b][c] += dp[i][a][b][c]
+                            }
+                            
+                            if AB[k].b == 1 {
+                                if b == 2 { continue }
+                                dp[i+1][a][b+1][c] += dp[i][a][b][c]
+                            }
+                            
+                            if AB[k].b == 2 {
+                                if c == 2 { continue }
+                                dp[i+1][a][b][c+1] += dp[i][a][b][c]
+                            }
+                            continue
+                        }
+                    }
+
+                    if a == 2 {
+                        dp[i+1][a][b+1][c] += dp[i][a][b][c]
+                        dp[i+1][a][b][c+1] += dp[i][a][b][c]
+                        continue
+                    }
+                    if b == 2 {
+                        dp[i+1][a+1][b][c] += dp[i][a][b][c]
+                        dp[i+1][a][b][c+1] += dp[i][a][b][c]
+                        continue
+                    }
+                    if c == 2 {
+                        dp[i+1][a][b+1][c] += dp[i][a][b][c]
+                        dp[i+1][a+1][b][c] += dp[i][a][b][c]
+                        continue
+                    }
+                    dp[i+1][a+1][b][c] += dp[i][a][b][c]
+                    dp[i+1][a][b+1][c] += dp[i][a][b][c]
+                    dp[i+1][a][b][c+1] += dp[i][a][b][c]
+                }
+            }
+        }
+    }
+    print(dp)
 }
 func abc189_d() {
     let N = readInt()
@@ -844,7 +918,6 @@ func abc189_d() {
     }
     print(dp)
  }
-abc189_d()
 
 func past201912_i() {
     let (N, M) = readTwoInts()
