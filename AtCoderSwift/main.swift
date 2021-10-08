@@ -812,28 +812,26 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
-import Combine
-
-struct Inputs {
-    var (N, M): (N: String, M: String)
-}
 func join20ho_d() {
     let (N, T, S) = readThreeInts()
     let AB = (0..<N).map { _ in readTwoInts() }
-    let a = [Int](repeating: -1, count: T+1)
+    let a = [Int](repeating: 0, count: T+1)
     var dp: [[Int]] = [[Int]](repeating: a, count:N+1)
-    dp[0][0] = 0
-    for i in 0..<N {
-        for j in 0...T {
-            dp[i+1][j] = dp[i][j]
-            if dp[i][j] != -1 {
-                dp[i+1][j+AB[i].b] = max(dp[i][j] + AB[i].a, dp[i+1][j+AB[i].b])
+
+    for i in 1...N {
+        for j in (0...T).reversed() {
+            dp[i][j] = dp[i-1][j]
+            if j + AB[i-1].b <= T {
+                if j < S && (j + AB[i-1].b > S) { continue }
+                dp[i][j+AB[i-1].b] = max(dp[i-1][j] + AB[i-1].a, dp[i][j+AB[i-1].b])
+                dp[i][j+AB[i-1].b] = max(dp[i-1][j] + AB[i-1].a, dp[i][j+AB[i-1].b])
             }
         }
     }
-    print(dp)
+    print(dp[N].max()!)
 }
 join20ho_d()
+import Combine
 
 func join2012yo_d() {
     let (N, K) = readTwoInts()
@@ -921,7 +919,6 @@ func abc189_d() {
 
 func past201912_i() {
     let (N, M) = readTwoInts()
-    let inputs = Inputs(N: "aa", M: "bb")
     let SC = (0..<M).flatMap { (m) -> (a: String, b: Int) in readTwoStrings() }.flatMap
     {
         (left, right) -> (a: String, b: Int) in
