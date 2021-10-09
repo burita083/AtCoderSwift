@@ -812,6 +812,87 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func abc222_d() {
+    let N = readInt()
+    let A = readInts()
+    let B = readInts()
+    let b = [Int](repeating: 0, count: 3001)
+    var dp = [[Int]](repeating: b, count: 3001)
+    var before = 0
+    var after = 0
+    let MOD = 998244353
+    for i in 0..<N {
+        let a = A[i]
+        let b = B[i]
+        for j in before...after {
+            let mn = max(a, j)
+            for k in mn...b {
+                if i - 1 >= 0 {
+                    dp[i][k] += dp[i-1][j]
+                    dp[i][k] %= MOD
+                } else {
+                    dp[i][k] = 1
+                }
+            }
+        }
+        before = a
+        after = b
+    }
+    var ans = 0
+    for d in dp[N-1] {
+        ans += d
+        ans %= MOD
+    }
+    print(ans)
+}
+abc222_d()
+
+func abc011_3() {
+    let N = readInt()
+    let NG = (0..<3).map { _ in readInt() }
+    var dp: [Int] = [Int](repeating: 0, count: 301)
+    dp[N] = 2
+    for ng in NG {
+       dp[ng] = 1
+    }
+    var count = 0
+    var Next = Set<Int>()
+    var Current = Set<Int>()
+    Current.insert(N)
+    while true {
+        count += 1
+        if Next.isEmpty == false {
+            Current = Next
+            Next = Set<Int>()
+        }
+        for i in Current.sorted() {
+            if dp[i] == 1 { continue }
+            if dp[i] == 0 { continue }
+            if i - 1 >= 0 {
+                if dp[i-1] == 2 { continue }
+                if dp[i-1] != 1 { dp[i-1] = 2}
+                Next.insert(i-1)
+            }
+            if i - 2 >= 0 {
+                if dp[i-2] == 2 { continue }
+                if dp[i-2] != 1 { dp[i-2] = 2}
+                Next.insert(i-2)
+            }
+            if i - 3 >= 0 {
+                if dp[i-3] == 2 { continue }
+                if dp[i-3] != 1 { dp[i-3] = 2}
+                Next.insert(i-3)
+            }
+        }
+        if count == 100 { break }
+    }
+    if dp[0] == 2 { print("YES")
+    } else {
+        print("NO")
+        
+    }
+}
+
 func join20ho_d() {
     let (N, T, S) = readThreeInts()
     let AB = (0..<N).map { _ in readTwoInts() }
@@ -830,7 +911,6 @@ func join20ho_d() {
     }
     print(dp[N].max()!)
 }
-join20ho_d()
 import Combine
 
 func join2012yo_d() {
