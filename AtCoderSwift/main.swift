@@ -812,6 +812,41 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func abc085_d() {
+    let (N, H) = readTwoInts()
+    let AB = (0..<N).map { _ in readTwoInts() }
+    let b = [Int](repeating: 0, count: 3001)
+    var dp = [[Int]](repeating: b, count: 3001)
+    var mx = -1
+    var B: [Int] = []
+    for ab in AB {
+        mx = max(mx, ab.a)
+        B.append(ab.b)
+    }
+    B.sort(by: >)
+    var count = 0
+    var sm = 0
+    for b in B {
+        if b > mx {
+            count += 1
+            sm += b
+            if sm >= H {
+                print(count)
+                return
+            }
+        } else {
+            break
+        }
+    }
+    let remain = H-sm
+    if remain % mx == 0 {
+        print(count + (remain/mx))
+    } else {
+        print(count + Int((Double(remain)/Double(mx)).rounded(.up)))
+    }
+}
+abc085_d()
+
 func abc222_d() {
     let N = readInt()
     let A = readInts()
@@ -824,15 +859,12 @@ func abc222_d() {
     for i in 0..<N {
         let a = A[i]
         let b = B[i]
-        for j in before...after {
-            let mn = max(a, j)
-            for k in mn...b {
-                if i - 1 >= 0 {
-                    dp[i][k] += dp[i-1][j]
-                    dp[i][k] %= MOD
-                } else {
-                    dp[i][k] = 1
-                }
+        for k in a...b {
+            if i - 1 >= 0 {
+                dp[i][k] += (dp[i-1][min(k, after)]-dp[i-1][before-1])
+                dp[i][k] %= MOD
+            } else {
+                dp[i][k] = 1
             }
         }
         before = a
@@ -845,7 +877,6 @@ func abc222_d() {
     }
     print(ans)
 }
-abc222_d()
 
 func abc011_3() {
     let N = readInt()
