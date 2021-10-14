@@ -812,6 +812,11 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func arc085_b() {
+    let (N, Z, W) = readThreeInts()
+    let A = readInts()
+}
+
 func abc085_d() {
     let (N, H) = readTwoInts()
     let AB = (0..<N).map { _ in readTwoInts() }
