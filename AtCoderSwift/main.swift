@@ -812,6 +812,42 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func joi2010yo_e() {
+    let (A, B) = readTwoInts()
+}
+
+func tdpc_game() {
+    let (A, B) = readTwoInts()
+    let a = readInts()
+    let b = readInts()
+    let e = [Int](repeating: 0, count: B+1)
+    var dp = [[Int]](repeating: e, count: A+1)
+    for i in (0...A).reversed() {
+        for j in (0...B).reversed() {
+            if i == A && j == B { continue }
+            if (i + j) % 2 == 0 {
+                if i < A && j < B {
+                    dp[i][j] = max(dp[i+1][j] + a[i], dp[i][j+1] + b[j])
+                } else if i == A {
+                    dp[i][j] = dp[i][j+1] + b[j]
+                } else {
+                    dp[i][j] = dp[i+1][j] + a[i]
+                }
+            } else {
+                if i < A && j < B {
+                    dp[i][j] = min(dp[i+1][j], dp[i][j+1])
+                } else if i == A {
+                    dp[i][j] = dp[i][j+1]
+                } else {
+                    dp[i][j] = dp[i+1][j]
+                }
+            }
+        }
+    }
+    print(dp[0][0])
+}
+tdpc_game()
+
 func arc085_b() {
     let (N, Z, W) = readThreeInts()
     let A = readInts()
@@ -850,7 +886,6 @@ func abc085_d() {
         print(count + Int((Double(remain)/Double(mx)).rounded(.up)))
     }
 }
-abc085_d()
 
 func abc222_d() {
     let N = readInt()
