@@ -812,8 +812,45 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func arc128_a() {
+    let N = readInt()
+    let A = readInts()
+    let l = [Double](repeating: 0, count: 2)
+    var dp = [[Double]](repeating: l, count: N+1)
+    dp[0][1] = 1
+    for i in 0..<N {
+        dp[i+1][1] = max(dp[i][1], dp[i][0]/Double(A[i]))
+        dp[i+1][0] = max(dp[i][1]*Double(A[i]), dp[i][0])
+    }
+    print(dp)
+}
+print(arc128_a())
+
 func joi2010yo_e() {
     let (A, B) = readTwoInts()
+    let l = [Int](repeating: 0, count: 2)
+    let k = [[Int]](repeating: l, count: 2)
+    let e = [[[Int]]](repeating: k, count: B)
+    var dp = [[[[Int]]]](repeating: e, count: A)
+    for i in 0..<A {
+        dp[i][0][0][0] = 1
+    }
+    for i in 0..<B {
+        dp[0][i][0][0] = 1
+    }
+    for i in 0..<A {
+        for j in 0..<B {
+            if  i - 1 >= 0 && j - 1 >= 0 {
+                dp[i][j][0][0] += dp[i-1][j][0][0] + dp[i][j-1][0][0]
+                dp[i][j][0][0] += dp[i-1][j][1][0] + dp[i][j-1][0][1]
+                
+                dp[i][j][1][0] += dp[i-1][j][0][0] + dp[i][j-1][0][0]
+                dp[i][j][0][1] += dp[i-1][j][0][0] + dp[i][j-1][0][0]
+            }
+        }
+    }
+    print(dp)
+    print(dp[A-1][B-1])
 }
 
 func tdpc_game() {
@@ -846,7 +883,6 @@ func tdpc_game() {
     }
     print(dp[0][0])
 }
-tdpc_game()
 
 func arc085_b() {
     let (N, Z, W) = readThreeInts()
