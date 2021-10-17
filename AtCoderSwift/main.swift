@@ -812,6 +812,41 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func abc041_d() {
+    let (N, M) = readTwoInts()
+    let e = [Int](repeating: 0, count: N)
+    var graph = [[Int]](repeating: e, count: N)
+    for _ in 0..<M {
+        let (X, Y) = readTwoInts()
+        graph[X-1][Y-1] = 1
+    }
+    var dp = [Int](repeating: 0, count: 1<<N)
+    
+    dp[0] = 1
+    for i in 0..<(1<<N-1) {
+        for j in 0..<N {
+            if i & (1<<j) == 1 { continue }
+            var flag = true
+            for k in 0..<N {
+                if ((i & (1<<k)) == 1) && (graph[k][j] == 1) {
+                    flag = false
+                }
+            }
+            if flag {
+                dp[i|(1<<j)] += dp[i]
+            }
+        }
+    }
+    print(dp)
+    print(dp[(1<<N)-1])
+}
+abc041_d()
+
+func m_solu2020_d() {
+    let N = readInt()
+    let A = readInts()
+}
+
 func arc128_a() {
     let N = readInt()
     let A = readInts()
@@ -824,7 +859,6 @@ func arc128_a() {
     }
     print(dp)
 }
-print(arc128_a())
 
 func joi2010yo_e() {
     let (A, B) = readTwoInts()
@@ -887,6 +921,7 @@ func tdpc_game() {
 func arc085_b() {
     let (N, Z, W) = readThreeInts()
     let A = readInts()
+    
 }
 
 func abc085_d() {
