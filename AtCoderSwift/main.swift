@@ -812,6 +812,43 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func abc143_e() {
+    let (N, M) = readTwoInts()
+    let SC = (0..<M).map { _ in
+        let(a, b) = readTwoStrings()
+        let C = readInts()
+    }
+    let SC = (0..<M).flatMap { (m) -> (a: String, b: Int) in readTwoStrings() }.flatMap
+    {
+        (left, right) -> (a: String, b: Int) in
+        //            left.reduce("", combine: {(l: String, r: String) -> String in
+        //                let l = l == "Y" ? "1" : "0"
+        //                let r = r == "Y" ? "1" : "0"
+        //                return l + r
+        //            }), right)
+        var l = ""
+        for s in left {
+            l += (s == "Y" ? "1" : "0")
+        }
+        return (l, right)
+    }
+    let k = [Int](repeating: Int.max, count: 1<<N)
+    var dp: [[Int]] = [[Int]](repeating: k, count:M+1)
+    dp[0][0] = 0
+    
+    for m in 0..<M {
+        dp[m+1] = dp[m]
+        for v in 0..<N {
+            guard dp[m][1<<v] != Int.max else { continue }
+            let left: Int = dp[m][v]+SC[m].b
+            let right: Int = dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v]
+            dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v] = min(left, right)
+        }
+    }
+    
+    print(dp.flatMap { $0 }.last! == Int.max ? -1 : dp.flatMap { $0 }.last!)
+}
+
 func abc041_d() {
     let (N, M) = readTwoInts()
     let e = [Int](repeating: 0, count: N)
@@ -833,7 +870,7 @@ func abc041_d() {
                 }
             }
             if flag {
-                dp[i|(1<<j)] += dp[i]
+                dp[Int(String(i), radix: 2)!|(1<<j)] += dp[i]
             }
         }
     }
