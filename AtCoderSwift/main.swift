@@ -814,23 +814,14 @@ extension Character {
 
 func abc143_e() {
     let (N, M) = readTwoInts()
-    let SC = (0..<M).map { _ in
-        let(a, b) = readTwoStrings()
+    let SC = (0..<M).compactMap { _ -> (cost: Int, s: Int) in
+        let(a, _) = readTwoInts()
         let C = readInts()
-    }
-    let SC = (0..<M).flatMap { (m) -> (a: String, b: Int) in readTwoStrings() }.flatMap
-    {
-        (left, right) -> (a: String, b: Int) in
-        //            left.reduce("", combine: {(l: String, r: String) -> String in
-        //                let l = l == "Y" ? "1" : "0"
-        //                let r = r == "Y" ? "1" : "0"
-        //                return l + r
-        //            }), right)
-        var l = ""
-        for s in left {
-            l += (s == "Y" ? "1" : "0")
+        var s = 0
+        for c in C {
+            s |= (1<<(c-1))
         }
-        return (l, right)
+        return (a, s)
     }
     let k = [Int](repeating: Int.max, count: 1<<N)
     var dp: [[Int]] = [[Int]](repeating: k, count:M+1)
@@ -838,16 +829,17 @@ func abc143_e() {
     
     for m in 0..<M {
         dp[m+1] = dp[m]
-        for v in 0..<N {
-            guard dp[m][1<<v] != Int.max else { continue }
-            let left: Int = dp[m][v]+SC[m].b
-            let right: Int = dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v]
-            dp[m+1][Int(SC[m].a, radix: 2)! | 1<<v] = min(left, right)
+        for v in 0..<(1 << N) {
+            guard dp[m][v] != Int.max else { continue }
+            let left: Int = dp[m][v]+SC[m].cost
+            let right: Int = dp[m+1][SC[m].s | v]
+            dp[m+1][SC[m].s | v] = min(left, right)
         }
     }
-    
-    print(dp.flatMap { $0 }.last! == Int.max ? -1 : dp.flatMap { $0 }.last!)
+
+    print(dp[M].last! == Int.max ? "-1" : dp[M].last!)
 }
+abc143_e()
 
 func abc041_d() {
     let (N, M) = readTwoInts()
@@ -877,7 +869,6 @@ func abc041_d() {
     print(dp)
     print(dp[(1<<N)-1])
 }
-abc041_d()
 
 func m_solu2020_d() {
     let N = readInt()
