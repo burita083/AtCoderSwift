@@ -812,6 +812,11 @@ extension Character {
     var byte: UInt8 { utf8.first! }
 }
 
+func dp_s() {
+    let K = readInt()
+    let D = readInt()
+}
+
 func abc143_e() {
     let (N, M) = readTwoInts()
     let SC = (0..<M).compactMap { _ -> (cost: Int, s: Int) in
